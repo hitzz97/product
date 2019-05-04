@@ -59,14 +59,13 @@ def email_user():
 			body+=pro
 		print("Emailing user:",Email)
 		text=MIMEMultipart()
-		text['From']="gooogle.atus@gmail.com"
+		text['From']="gooogle.atus@gmail.com"    #YOUR EMAIL ID HERE
 		text['To']=Email
 		text['Subject']="Your Interests"
 		text.attach(MIMEText(body,"plain"))
 		s=smtplib.SMTP('smtp.gmail.com',587)
 		s.starttls()
-		s.login("gooogle.atus@gmail.com","itzawesome")
-		# s.sendmail('hitzzkushwaha@gmail.com','gooogle.atus@gmail.com',text)
+		s.login("gooogle.atus@gmail.com","itzawesome")   #YOUR EMAIL AND PASSWORD
 		s.send_message(text)
 		s.quit()
 		print("Message sent to:",Email)
