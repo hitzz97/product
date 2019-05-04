@@ -36,5 +36,6 @@ CONFIGURING FOR EMAIL:
 
     my email will probably not work from your pc as google may ask for verification so for proper working of email system you
     must give your email and password in the server.py file where it is mentioned also you need to enable less secure app 
-    permission for the gmail account through you  want to send emails.
-    To enable less secure app go to settings in your gmail account and look for Less secured app permission and turn it ON.
+    permission for the gmail account through you  want to send emails from.
+    To enable less secure app permission go to settings in your gmail account and look for Less secured app permission and 
+    turn it ON.
