@@ -8,13 +8,13 @@ File orientation:.
   
     server.py: the main python file to be run.
   
-  Templates:contains the necessary html files like
+    Templates:contains the necessary html files like
   
-    products.html:the file to be served when user visits for the first time.
+        products.html:the file to be served when user visits for the first time.
     
-    interest.html:the file to be server when user clicks the intrest link
+        interest.html:the file to be server when user clicks the intrest link
     
-    home.html:visited when user clicks on home.
+        home.html:visited when user clicks on home.
     
 Running the server:
 
