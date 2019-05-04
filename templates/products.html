@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no,initial-scale=1">
+	<title>website</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<title>Products</title>
+	<style type="text/css">
+		input[type=text]{
+				padding:8px 20px ;
+				margin:8px 0;
+				border:none;
+				border-top-left-radius:6px;
+				border-bottom-left-radius:6px;
+				border-left:2px solid black;
+				border-top:1.6px solid black;
+				border-bottom:2px solid black;
+				color:black;
+				opacity: 1;
+			}
+		.search_img{
+			border-top-right-radius:6px;
+			border-bottom-right-radius:6px;
+			border-top:2px solid black;
+			border-bottom:2px solid black;
+			border-right:2px solid black;
+			float:right;margin-right:44%;
+			margin-top:.48%;
+			height:36.2px;
+			width:3%;
+			background-color:white;
+		}
+		.cart_image{
+			height:45px;
+			width:3%;
+			float: left;
+			margin-top: .5%;
+			margin-left:16%;
+		}
+		a:hover{
+			color:red;
+		}
+		a:link{
+			color:white;
+		}
+		.items{
+			float:left;
+			margin-left:10%;
+			border-top-right-radius:10px;
+			border-top-left-radius:10px;
+			margin-bottom:3%; 
+			border:3.5px solid orange;
+			width:20%;
+			height: 40%
+		}
+		.items:hover{
+			border:3.5px solid red;
+		}
+		.ani:hover{
+			background-image:linear-gradient(#ffffff,#ffff00);
+		}
+		.heart:hover{
+			height:40px;
+			width: 40px;
+		}
+		.email_icon:hover{
+			height:110px;
+			width: 110px;
+		}
+	</style>
+	<script type="text/javascript">
+		$(function(){
+			$.getJSON('/get_products',{}
+			,function(data){
+  				$(".products").append(data);
+  			});
+		});
+	</script>
+	<script type="text/javascript">
+		$(function(){
+			$('a#email_input').bind('click',function(){
+  				$.getJSON('/get_email',{
+  					email:$('input[name="email"]').val(),
+  				});
+  				$(".email").remove();
+  				return false;
+  			});
+		});
+	</script>
+	<script type="text/javascript">
+		$(function(){
+			$('.search_img').bind('click',function(){
+  				$.getJSON('/search',{
+  					name:$('input[name="p_name"]').val(),
+
+  				},function(data){
+  					$(".products").remove();
+  					$(".container").append('<div class="products" style="padding-bottom:1%;padding-top:4%">');
+  					$(".products").append(data);
+  					document.getElementById('search').value="";
+  				});
+  				return false;
+  			});
+		});
+	</script>
+	<script type="text/javascript">
+		function intrested(ele){
+			$.getJSON('/interested',{
+  					name:ele.id,
+  				},function(){});
+			ele.setAttribute("src","https://image.flaticon.com/icons/svg/149/149217.svg");
+		}
+	</script>
+	<script type="text/javascript">
+		function email_user(ele){
+			$.getJSON('/email_user',{},function(data){
+				console.log(data)
+				if (data=="Error"){
+					window.location.href="/";
+				}
+				ele.setAttribute("src","https://image.flaticon.com/icons/svg/138/138701.svg");
+			});
+		}
+	</script>
+</head>
+<body class="body" style="margin:0px;padding:0px;position:absolute;min-width:1600px;background-color:#eeeeee">
+
+	<div style="position: relative;height:57px;background-color:#dca3ff;width:100%;padding-top:.5%">
+		<div>
+			<div>
+				<form>
+					<img class="cart_image" src="http://www.icons101.com/icon_ico/id_38039/shoppingbasketadd.ico" alt="image">
+					<input type="text" id="search" name="p_name" placeholder="Search Product Names here, eg: shirt one" style="float:left;width:500px;height:20px">
+					<input type="image" src="https://images-na.ssl-images-amazon.com/images/I/312v92mwp9L.jpg" class="search_img" alt="submit">	
+				</form>
+				<div style="float: right;position:absolute;top:20px;right:100px">
+						<b>
+						<a href="/home" style="text-decoration:none;font-family:helvetica;padding-right:20px">Home</a>
+						<a href="/interest" style="text-decoration:none;font-family:helvetica">Interests</a>
+						</b>
+					</div>	
+			</div>
+		</div>
+	</div>
+	<div style="position: relative;background-color:white;padding-top:.5%;padding-bottom:.5%;margin-bottom:0.5%">
+		<font size="5px" style="margin-left:18%;">Shoes</font>
+		<font size="5px" style="margin-left:5%;">Shirts</font>
+		<font size="5px" style="margin-left:5%;">Pants</font>
+		<font size="5px" style="margin-left:5%;">Ties</font>
+		<font size="5px" style="margin-left:5%;">T-shirts</font>
+		<font size="5px" style="margin-left:5%;">Socks</font>
+		<font size="5px" style="margin-left:5%;">watches</font>
+	</div>
+
+	<div class="container" style="margin-left:.5%;margin-right:0.5%;background-color:#ffffff;padding-bottom:5%;height:1990px">
+		<div class="products" style="padding-bottom:1%;padding-top:4%">
+
+		</div>
+	</div>
+
+	<div style="position:fixed;top:76%;right:5%">
+		<img class="email_icon" onclick="email_user(this);" src="https://cdn2.iconfinder.com/data/icons/seo-web-optimization-ultimate-part1/512/e-mail-512.png" height="100px" width="100px">
+		<br>
+		<font size="5px" color="black" style="padding-left:1px">Email me</font>
+		<br>
+		<font size="3px">get yor interests</font>
+		<br>
+		<font size="3px" style="padding-left:20%">via email</font>
+	</div>
+
+	<div class="email" style="position:absolute;width:100%;height:100%;top:0;left:0;right:0;bottom:0;background-color:  #49494b ;opacity:0.9;">
+		<div style="opacity:1;position:sticky;top:15%;left:28%;height:300px;width:600px;background-color:  #062586">
+			<form method="GET" style="margin-bottom:1%">
+				<font color="white" style="font-family:helvetica;padding-left:15%;padding-top:15%" size="5px">Email:</font>
+				<input type="text" name="email" value="" placeholder="Enter your Email and press Enter." style="margin-left:8%;margin-bottom:10%;width:40%;border-top-right-radius:6px;border-bottom-right-radius:6px;border-right:2px solid black;margin-top:15%">
+				
+				<a href="#" id="email_input"><input type="image" src="https://image.flaticon.com/icons/svg/60/60525.svg" alt="visit" id="email_input" height="50px" width="70px" style="float:right;padding-top:13.5%;padding-right:4%"></a>
+			</form>
+			<br>
+			<font size="4px" color="yellow" style="margin-top:20%;padding-left:8%">Press the Heart button to get the Details of product via Email if interested </font>
+			<font size="4px" color="yellow" style="padding-left:40%">while browsing.</font>
+			<br>
+			<img src="https://image.flaticon.com/icons/svg/148/148836.svg" height="50px" width="50px" style="background-color:#062586;padding-left:46%">
+		</div>
+	</div>
+</body>
+</html>
+<!-- Product Showing Webpage using FLASK :
+
+Overview -You have to create a Flask based product showing web app where user can see different products and can search products according to the name.
+
+Objectives -
+Create a database in sqlite
+Store dummy details of products and show them on the main page
+Create a working search bar
+Create a user interface
+Mail the details of the product in which the user is interested -->

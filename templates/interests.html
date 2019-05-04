@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no,initial-scale=1">
+	<title>website</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<title>Products</title>
+	<style type="text/css">
+		input[type=text]{
+				padding:8px 20px ;
+				margin:8px 0;
+				border:none;
+				border-top-left-radius:6px;
+				border-bottom-left-radius:6px;
+				border-left:2px solid black;
+				border-top:1.6px solid black;
+				border-bottom:2px solid black;
+				color:black;
+				opacity: 1;
+			}
+		.search_img{
+			border-top-right-radius:6px;
+			border-bottom-right-radius:6px;
+			border-top:2px solid black;
+			border-bottom:2px solid black;
+			border-right:2px solid black;
+			float:right;margin-right:44%;
+			margin-top:.48%;
+			height:36.2px;
+			width:3%;
+			background-color:white;
+		}
+		.cart_image{
+			height:45px;
+			width:3%;
+			float: left;
+			margin-top: .5%;
+			margin-left:16%;
+		}
+		a:hover{
+			color:red;
+		}
+		a:link{
+			color:white;
+		}
+		.items{
+			float:left;
+			margin-left:10%;
+			border-top-right-radius:10px;
+			border-top-left-radius:10px;
+			margin-bottom:3%; 
+			border:3.5px solid orange;
+			width:20%;
+			height: 40%
+		}
+		.items:hover{
+			border:3.5px solid red;
+		}
+		.ani:hover{
+			background-image:linear-gradient(#ffffff,#ffff00);
+		}
+		.heart:hover{
+			height:40px;
+			width: 40px;
+		}
+	</style>
+	<script type="text/javascript">
+		$(function(){
+			$.getJSON('/get_interested_products',{}
+			,function(data){
+  				$(".products").append(data);
+  			});
+		});
+	</script>
+	<script type="text/javascript">
+		function email_user(){
+			$.getJSON('/email_user',{},function(){});
+		}
+	</script>
+</head>
+<body style="margin:0px;padding:0px;min-width:1600px;background-color:#eeeeee">
+	<div style="height:57px;background-color:#dca3ff;width:100%;padding-top:.5%">
+		<div>
+			<div>
+				<form>
+					<img class="cart_image" src="http://www.icons101.com/icon_ico/id_38039/shoppingbasketadd.ico" alt="image">
+					<input type="text" id="search" name="p_name" placeholder="Search Product Names here, eg: shirt one" style="float:left;width:500px;height:20px">
+					<input type="image" src="https://images-na.ssl-images-amazon.com/images/I/312v92mwp9L.jpg" class="search_img" alt="submit">	
+				</form>
+				<div style="float: right;position:absolute;top:20px;right:100px">
+						<b>
+						<a href="/" style="text-decoration:none;font-family:helvetica;padding-right:20px">Home</a>
+						<a href="/interest" style="text-decoration:none;font-family:helvetica">Interests</a>
+						</b>
+					</div>	
+			</div>
+		</div>
+	</div>
+	<div style="background-color:white;padding-top:.5%;padding-bottom:.5%;margin-bottom:0.5%">
+		<font size="5px" style="margin-left:18%;">Shoes</font>
+		<font size="5px" style="margin-left:5%;">Shirts</font>
+		<font size="5px" style="margin-left:5%;">Pants</font>
+		<font size="5px" style="margin-left:5%;">Ties</font>
+		<font size="5px" style="margin-left:5%;">T-shirts</font>
+		<font size="5px" style="margin-left:5%;">Socks</font>
+		<font size="5px" style="margin-left:5%;">watches</font>
+	</div>
+
+	<div class="container" style="margin-left:.5%;margin-right:0.5%;background-color:#ffffff;padding-bottom:5%;height:1990px">
+		<div class="products" style="padding-bottom:1%;padding-top:4%">
+		</div>
+	</div>
+	<div onclick="email_user();" style="position:fixed;top:76%;right:5%">
+		<img class="email_icon" src="https://cdn2.iconfinder.com/data/icons/seo-web-optimization-ultimate-part1/512/e-mail-512.png" height="100px" width="100px">
+		<br>
+		<font size="5px" color="black" style="padding-left:1px">Email me</font>
+		<br>
+		<font size="3px">get yor interests</font>
+		<br>
+		<font size="3px" style="padding-left:20%">via email</font>
+	</div>
+</body>
+</html>
+<!-- Product Showing Webpage using FLASK :
+
+Overview -You have to create a Flask based product showing web app where user can see different products and can search products according to the name.
+
+Objectives -
+Create a database in sqlite
+Store dummy details of products and show them on the main page
+Create a working search bar
+Create a user interface
+Mail the details of the product in which the user is interested -->
