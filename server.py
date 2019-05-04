@@ -71,7 +71,8 @@ def email_user():
 		s.quit()
 		print("Message sent to:",Email)
 		return jsonify("OK")
-	except:
+	except Exception as e:
+		Print(e)
 		return jsonify("Error")
 
 def get_details(name):
