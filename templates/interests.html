@@ -75,8 +75,15 @@
 		});
 	</script>
 	<script type="text/javascript">
-		function email_user(){
-			$.getJSON('/email_user',{},function(){});
+		function email_user(ele){
+			$.getJSON('/email_user',{},function(data){
+				console.log(data)
+				if (data=="Error"){
+					window.location.href="/";
+				}
+				ele.setAttribute("src","https://image.flaticon.com/icons/svg/138/138701.svg");
+			});
+			ele.setAttribute("src","https://image.flaticon.com/icons/svg/131/131155.svg");
 		}
 	</script>
 </head>
