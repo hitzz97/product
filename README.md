@@ -2,7 +2,7 @@ Flask project:
 
 Required modules to run: Flask and sqlite3.
 
-File orientation:
+File orientation:.
   products.db:Contains the database of product name, image location,comapny,price, location to buy from.
   server.py: the main python file to be run.
   Templates:contains the necessary html files like
