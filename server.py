@@ -44,8 +44,7 @@ NOT_FOUND='''
 			</div>
 '''
 INTERESTS=set([])
-'''this function searches the file database.txt for matches and the format
-of each line in database.txt is "name:website address" '''
+'''this function EMAILs the user his or her interests" '''
 
 ''' '''
 @app.route('/email_user')
@@ -73,14 +72,14 @@ def email_user():
 	except Exception as e:
 		Print(e)
 		return jsonify("Error")
-
+#function to retrieve details of products form the database
 def get_details(name):
 	conn=sql.connect(os.path.join("\\".join(os.path.abspath(__file__).split("\\")[:-1]),"products.db"))
 	print("opened")
 	cur=conn.execute("select name,img,company,price,buy from items where name='{}'".format(name))
 	for row in cur:
 		return row[0],row[1],row[2],row[3],row[4]
-
+#the function is querried on document load to print the producths on the html from database
 @app.route('/get_products')
 def get_products():
 	global output
@@ -99,14 +98,14 @@ def get_products():
 		out+=html
 	conn.close()
 	return jsonify(out)
-
+#this function is invoked when the user enters the email and hence stores the user emails
 @app.route('/get_email')
 def get_email():
 	global Email
 	Email=str(request.args.get('email'))
 	print("User Email received: ",Email)
 	return "OK"
-
+#this function is invoked when the user presses on the interested buttons and hence the product name is sent from html to server
 @app.route('/interested')
 def interested():
 	global INTERESTS
@@ -115,7 +114,7 @@ def interested():
 
 	return "OK"
 
-
+#this function serarches for the matching keyword and is invoked when the user searches
 @app.route('/search')
 def search():
 	global output,NOT_FOUND
@@ -131,7 +130,7 @@ def search():
 	except:
 		return jsonify(NOT_FOUND)
 	return jsonify(html)                        #add recommendations
-
+#This function is used to print the intrested products on the page when user visits the interested url
 @app.route('/get_interested_products')
 def interested_products():
 	global INTERESTS,output
@@ -148,21 +147,21 @@ def interested_products():
 		html=html.replace('AMOUNT',price)
 		out+=html
 	return jsonify(out)
-
+#this is the url of interested page 
 @app.route('/interest',methods=["GET","POST"])
 def interest_page():
     try:
         return render_template("interests.html")
     except Exception as e:
         return str(e)
-
+#url to the home page 
 @app.route('/home',methods=["GET","POST"])
 def home():
     try:
         return render_template("home.html")
     except Exception as e:
         return str(e)
-
+#url to the page when user visits for the first time 
 @app.route('/',methods=["GET","POST"])
 def page():
     try:
@@ -170,5 +169,5 @@ def page():
     except Exception as e:
         return str(e)
 
-
+#the ip can be changed to 127.0.0.1 or any thing else.
 app.run('0.0.0.0',debug=True,port=PORT)
