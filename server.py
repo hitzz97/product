@@ -76,9 +76,9 @@ def email_user():
 def get_details(name):
 	conn=sql.connect(os.path.join("\\".join(os.path.abspath(__file__).split("\\")[:-1]),"products.db"))
 	print("opened")
-	cur=conn.execute("select name,img,company,price,buy from items where name='{}'".format(name))
+	cur=conn.execute("select name,img,company,price,buy from items where name like '{}%'".format(name.strip()))
 	for row in cur:
-		return row[0],row[1],row[2],row[3],row[4]
+		yield row[0],row[1],row[2],row[3],row[4]
 #the function is querried on document load to print the producths on the html from database
 @app.route('/get_products')
 def get_products():
@@ -122,11 +122,13 @@ def search():
 	print(name)
 	html=output
 	try:
-		name,image,company,price,buy=get_details(name)
-		html=html.replace('NAME',name)
-		html=html.replace('IMAGE',image)
-		html=html.replace('COMPANY',company)
-		html=html.replace('AMOUNT',price)
+		for name,image,company,price,buy in get_details(name):
+			html=output
+			html=html.replace('NAME',name)
+			html=html.replace('IMAGE',image)
+			html=html.replace('COMPANY',company)
+			html=html.replace('AMOUNT',price)
+			out+=html
 	except:
 		return jsonify(NOT_FOUND)
 	return jsonify(html)                        #add recommendations
