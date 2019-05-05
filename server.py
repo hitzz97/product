@@ -120,7 +120,7 @@ def search():
 	global output,NOT_FOUND
 	name=str(request.args.get('name'))
 	print(name)
-	html=output
+	out=''
 	try:
 		for name,image,company,price,buy in get_details(name):
 			html=output
@@ -131,7 +131,7 @@ def search():
 			out+=html
 	except:
 		return jsonify(NOT_FOUND)
-	return jsonify(html)                        #add recommendations
+	return jsonify(out)                      #add recommendations
 #This function is used to print the intrested products on the page when user visits the interested url
 @app.route('/get_interested_products')
 def interested_products():
