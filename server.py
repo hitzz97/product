@@ -2,9 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request, jsonify,Re
 import os
 import sys
 import sqlite3 as sql
-import smtplib
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
+import smtplib,ssl
 
 app=Flask(__name__)
 Email=""
@@ -47,30 +45,35 @@ INTERESTS=set([])
 '''this function EMAILs the user his or her interests" '''
 
 ''' '''
+
 @app.route('/email_user')
 def email_user():
 	global INTERESTS,Email
 	try:
+		message="""\
+		Subject: Your Interests\n\nMESSAGE.\n\nhave a nice day.
+		"""
 		body=""
 		for i in INTERESTS:
-			name,image,company,price,buy=get_details(i)
-			pro="Product name: {}\nCompany: {}\nPrice:RS. {}\nBuy at: {}\n\n".format(name,company,price,buy)
-			body+=pro
+			for name,image,company,price,buy in get_details(i):
+				pro="Product name: {}\nCompany: {}\nPrice:RS. {}\nBuy at: {}\n\n".format(name,company,price,buy)
+				body+=pro
+		message=message.replace("MESSAGE",body)
 		print("Emailing user:",Email)
-		text=MIMEMultipart()
-		text['From']="gooogle.atus@gmail.com"    #YOUR EMAIL ID HERE
-		text['To']=Email
-		text['Subject']="Your Interests"
-		text.attach(MIMEText(body,"plain"))
+		
+		From="gooogle.atus@gmail.com"    #YOUR EMAIL ID HERE
+		To=Email
+		
 		s=smtplib.SMTP('smtp.gmail.com',587)
 		s.starttls()
 		s.login("gooogle.atus@gmail.com","itzawesome")   #YOUR EMAIL AND PASSWORD
-		s.send_message(text)
-		s.quit()
+		
+		s.sendmail(From,To,message)
+
 		print("Message sent to:",Email)
 		return jsonify("OK")
 	except Exception as e:
-		Print(e)
+		print(e)
 		return jsonify("Error")
 #function to retrieve details of products form the database
 def get_details(name):
@@ -142,12 +145,14 @@ def interested_products():
 		return jsonify(NOT_FOUND)
 	for i in INTERESTS:
 		html=output
-		name,image,company,price,buy=get_details(i)
-		html=html.replace('NAME',name)
-		html=html.replace('IMAGE',image)
-		html=html.replace('COMPANY',company)
-		html=html.replace('AMOUNT',price)
-		out+=html
+
+		for name,image,company,price,buy in get_details(i):
+		
+			html=html.replace('NAME',name)
+			html=html.replace('IMAGE',image)
+			html=html.replace('COMPANY',company)
+			html=html.replace('AMOUNT',price)
+			out+=html
 	return jsonify(out)
 #this is the url of interested page 
 @app.route('/interest',methods=["GET","POST"])
@@ -155,6 +160,7 @@ def interest_page():
     try:
         return render_template("interests.html")
     except Exception as e:
+        print(e)
         return str(e)
 #url to the home page 
 @app.route('/home',methods=["GET","POST"])
@@ -169,6 +175,7 @@ def page():
     try:
         return render_template("products.html")
     except Exception as e:
+        print(e)
         return str(e)
 
 #the ip can be changed to 127.0.0.1 or any thing else.
