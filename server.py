@@ -45,6 +45,12 @@ INTERESTS=set([])
 '''this function EMAILs the user his or her interests" '''
 
 ''' '''
+def valid():
+	global Email
+	Email=Email.lower()
+	if '@' in Email and '.' in Email and (96<ord(Email[0])<123) and (96<ord(Email[-1])<123):
+		return True
+	return False
 
 @app.route('/email_user')
 def email_user():
@@ -107,7 +113,9 @@ def get_email():
 	global Email
 	Email=str(request.args.get('email'))
 	print("User Email received: ",Email)
-	return "OK"
+	if valid():
+		return jsonify("OK")
+	return jsonify("ERROR")
 #this function is invoked when the user presses on the interested buttons and hence the product name is sent from html to server
 @app.route('/interested')
 def interested():
