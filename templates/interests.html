@@ -65,14 +65,59 @@
 			height:40px;
 			width: 40px;
 		}
+		.email_icon:hover{
+			height:110px;
+			width: 110px;
+		}
 	</style>
 	<script type="text/javascript">
 		$(function(){
-			$.getJSON('/get_interested_products',{}
+			$.getJSON('/get_products',{}
 			,function(data){
   				$(".products").append(data);
   			});
 		});
+	</script>
+	<script type="text/javascript">
+		$(function(){
+			$('a#email_input').bind('click',function(){
+  				$.getJSON('/get_email',{
+  					email:$('input[name="email"]').val(),
+  				},function(data){
+  					if (data=="OK"){
+  						$(".email").remove();
+  					}
+  					else{
+  						document.getElementById("change").value="WRONG EMAIL"
+  					}
+  				});
+  				return false;
+  			});
+		});
+	</script>
+	<script type="text/javascript">
+		$(function(){
+			$('.search_img').bind('click',function(){
+  				$.getJSON('/search',{
+  					name:$('input[name="p_name"]').val(),
+
+  				},function(data){
+  					$(".products").remove();
+  					$(".container").append('<div class="products" style="padding-bottom:1%;padding-top:4%">');
+  					$(".products").append(data);
+  					document.getElementById('search').value="";
+  				});
+  				return false;
+  			});
+		});
+	</script>
+	<script type="text/javascript">
+		function intrested(ele){
+			$.getJSON('/interested',{
+  					name:ele.id,
+  				},function(){});
+			ele.setAttribute("src","https://image.flaticon.com/icons/svg/149/149217.svg");
+		}
 	</script>
 	<script type="text/javascript">
 		function email_user(ele){
@@ -87,8 +132,9 @@
 		}
 	</script>
 </head>
-<body style="margin:0px;padding:0px;min-width:1600px;background-color:#eeeeee">
-	<div style="height:57px;background-color:#dca3ff;width:100%;padding-top:.5%">
+<body class="body" style="margin:0px;padding:0px;position:absolute;min-width:1600px;background-color:#eeeeee">
+
+	<div style="position: relative;height:57px;background-color:#dca3ff;width:100%;padding-top:.5%">
 		<div>
 			<div>
 				<form>
@@ -105,7 +151,7 @@
 			</div>
 		</div>
 	</div>
-	<div style="background-color:white;padding-top:.5%;padding-bottom:.5%;margin-bottom:0.5%">
+	<div style="position: relative;background-color:white;padding-top:.5%;padding-bottom:.5%;margin-bottom:0.5%">
 		<font size="5px" style="margin-left:18%;">Shoes</font>
 		<font size="5px" style="margin-left:5%;">Shirts</font>
 		<font size="5px" style="margin-left:5%;">Pants</font>
@@ -117,16 +163,34 @@
 
 	<div class="container" style="margin-left:.5%;margin-right:0.5%;background-color:#ffffff;padding-bottom:5%;height:1990px">
 		<div class="products" style="padding-bottom:1%;padding-top:4%">
+
 		</div>
 	</div>
-	<div onclick="email_user();" style="position:fixed;top:76%;right:5%">
-		<img class="email_icon" src="https://cdn2.iconfinder.com/data/icons/seo-web-optimization-ultimate-part1/512/e-mail-512.png" height="100px" width="100px">
+
+	<div style="position:fixed;top:76%;right:5%">
+		<img class="email_icon" onclick="email_user(this);" src="https://cdn2.iconfinder.com/data/icons/seo-web-optimization-ultimate-part1/512/e-mail-512.png" height="100px" width="100px">
 		<br>
 		<font size="5px" color="black" style="padding-left:1px">Email me</font>
 		<br>
 		<font size="3px">get yor interests</font>
 		<br>
 		<font size="3px" style="padding-left:20%">via email</font>
+	</div>
+
+	<div class="email" style="position:absolute;width:100%;height:100%;top:0;left:0;right:0;bottom:0;background-color:  #49494b ;opacity:0.9;">
+		<div style="opacity:1;position:sticky;top:15%;left:28%;height:300px;width:600px;background-color:  #062586">
+			<form method="GET" style="margin-bottom:1%">
+				<font color="white" style="font-family:helvetica;padding-left:15%;padding-top:15%" size="5px">Email:</font>
+				<input type="text" id="change" name="email" value="" placeholder="Enter your Email and press Enter." style="margin-left:8%;margin-bottom:10%;width:40%;border-top-right-radius:6px;border-bottom-right-radius:6px;border-right:2px solid black;margin-top:15%">
+				
+				<a href="#" id="email_input"><input type="image" src="https://image.flaticon.com/icons/svg/60/60525.svg" alt="visit" id="email_input" height="50px" width="70px" style="float:right;padding-top:13.5%;padding-right:4%"></a>
+			</form>
+			<br>
+			<font size="4px" color="yellow" style="margin-top:20%;padding-left:8%">Press the Heart button to get the Details of product via Email if interested </font>
+			<font size="4px" color="yellow" style="padding-left:40%">while browsing.</font>
+			<br>
+			<img src="https://image.flaticon.com/icons/svg/148/148836.svg" height="50px" width="50px" style="background-color:#062586;padding-left:46%">
+		</div>
 	</div>
 </body>
 </html>
